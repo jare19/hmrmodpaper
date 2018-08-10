@@ -1,0 +1,18 @@
+
+sudo: required
+
+services:
+  - docker
+
+script:
+  - docker build -t hmrmodpaper .
+
+before_deploy:
+  - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+  - docker tag hmrmodpaper:latest jare19/hmrmodpaper:latest
+
+deploy:
+  provider: script
+  script: docker push jare19/hmrmodpaper:latest
+  on:
+    branch: master
